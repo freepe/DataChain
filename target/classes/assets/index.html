@@ -1,0 +1,150 @@
+<body style="max-width:1200px;background-color:#fff;">
+	<!-- <h3 style="float:right;">Datachain</h3> -->
+	<!-- jQuery -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<!-- <script src="assets/rest-client.js"></script> -->
+
+	<script type="text/javascript">
+		var req = 0;
+		var intervalID = 0;
+
+		function viewStorageCosts() {
+			var file_size = document.getElementById('input_file').files[0].size;
+			$('#hidable').show();
+			document.getElementById('size_label').innerText = 'Filesize: ' + (file_size/1024/1024).toFixed(2) + 'MB';
+
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("POST", "/rest/api/fff");
+			xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			xmlhttp.send(
+			    JSON.stringify({f1:"v1", f2:123})
+			);
+
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+			        document.getElementById('storage_costs').innerText = 'Eth address: ' + xmlhttp.responseText;
+
+			        intervalID = setInterval(checkPaid, 1000);
+			        console.log('setInterval');
+			    }
+			}
+		}
+
+		function checkPaid() {
+			console.log('checkPaid call');
+
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", "/rest/api/get_paid");
+			xmlhttp.send();
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+					console.log('checkPaid: ' + xmlhttp.responseText + ' request number ' + ++req);
+
+			        if (xmlhttp.responseText == "true") {
+			        	document.getElementById('submit_button').disabled = false;
+						clearInterval(intervalID);
+						console.log('clearInterval');
+			        }
+			    }
+			}
+		}
+
+		function checkDownload() {
+			var hash = $('#input-hash').val();
+			var funds = prompt('enter 100 funds please');
+			var result = funds > 100 ? true : false;
+
+			var address = "http://localhost:8080/ipfs/" + hash;
+			if (result) {
+				$( "#content" ).append("<img src="+ address +">");
+				$( "final-link" ).append("<span>" + finalLink + "</span>");
+			}
+		}
+
+		function checkHash() {
+			var smth = $('#input-hash').val();
+			console.log(smth.length);
+			if (smth.length >= 46 && smth.length <= 64) {
+				console.log('show');
+				//$('download-costs').append('pay funds or die');
+
+				$('#pay-for-download').show();
+			}
+		}
+
+		function preciousHash() {
+			$('#upload-result').show();
+
+		}
+
+	</script>
+
+
+	<!-- <script type="text/javascript">
+		$(document).ready( function () {
+			$('form').submit( function () {
+				var formdata = $(this).serialize();
+				$.ajax({
+				    type: "POST",
+				    url: "http://localhost:8082/",
+				    data: formdata,
+				 });
+				return false;
+			});
+		});
+	</script>
+	 -->
+<br><br>
+<main>
+	<div style="text-align:center;">		
+		<img src="0.jpg"/>
+		<h1>Datachain Project</h1>
+
+		<h3>Decentralized data storage with high consistency, censorship resistance and ability to control access to data</h3>
+
+	</div>
+	<div id="wrapper" style="margin: 0 auto; width: 900px;">
+	<div id="upload">
+		<form action="/form" method="post" enctype="multipart/form-data">
+			<div>
+				<label for="name"><span>Select a file:</span></label>
+
+				<input id="input_file" type="file" name="file"/>
+				<br><input value="Calculate & view storage costs and make a request" onclick="viewStorageCosts()" type="button">
+				<div id='hidable' style="display:none">
+					<h3 id='size_label'>size of file:</h3>
+					<br><input type="checkbox"><span>Make private</span>
+					<input type="input" name="upload-funds" size="40">
+				</div>
+				
+								
+				<h3 id='storage_costs'></h3>
+				<button type="submit" id="submit_button" disabled="disabled" onclick="preciousHash()" style="width:20em;height:4em;">
+					<span>Upload</span>
+				</button>
+				<div id="upload-result" style="display:none">
+					<div>You're looking at precious private hash</div>
+					<div>you are looking at protected publik hash</div>
+				</div>
+			</div>
+		
+		</form>
+	</div>
+	<div id="download" style="float:right;margin-top:-200px;}">
+		<br><br>
+		<br><br>
+		<input type="input" id="input-hash" placeholder="We need your long long viewer's hash" size="40" onkeyup="checkHash()"><br>
+	    <div style="display:none" id="pay-for-download">
+			<h3 id='download-costs' placeholder="unleash my power with some Eth">Eth address up</h3> <!-- Eth UP -->
+			<input type="input" name="" size="40">
+	    </div>
+		<br><br>
+		
+		<button onclick="checkDownload()" style="width:20em;height:4em;">Download</button>
+
+		<!-- <input value="checkPaid" onclick="checkPaid();" type="button"> -->
+	</div>
+	</div>
+</main>
+<div id="content"></div>
+<body>

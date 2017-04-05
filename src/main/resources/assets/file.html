@@ -1,0 +1,39 @@
+<h3>Datachain :: File</h3>
+
+<!-- jQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<!-- <script src="assets/rest-client.js"></script> -->
+
+<script type="text/javascript">
+	var intervalID = setInterval(checkPaid, 1000);
+
+	function checkPaid() {
+		console.log('checkPaid call');
+
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "/rest/api/get_paid2");
+		xmlhttp.send();
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+				console.log('checkPaid: ' + xmlhttp.responseText);
+
+		        if (xmlhttp.responseText == "true") {
+		        	document.getElementById('file_link').style.visibility = "visible";
+					clearInterval(intervalID);
+					console.log('clearInterval');
+		        }
+		    }
+		}
+	}
+
+</script>
+
+
+<h3 id='pay_address'>%pay_address%<h3>
+
+<!-- <h3 id='file_link'>%file_link%<h3> -->
+<img src="%file_link%" id='file_link'/>
+
+<script type="text/javascript">
+	document.getElementById('file_link').style.visibility = "hidden";
+</script>

@@ -1,0 +1,98 @@
+<h3>Datachain</h3>
+
+<!-- jQuery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<!-- <script src="assets/rest-client.js"></script> -->
+
+<script type="text/javascript">
+	var intervalID = 0;
+
+	function evalStorageCosts() {
+		var file_size = document.getElementById('input_file').files[0].size;
+		document.getElementById('size_label').innerText = 'Filesize: ' + file_size/1024/1024 + 'MB';
+
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("POST", "/rest/api/fff");
+		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xmlhttp.send(
+		    JSON.stringify({f1:"v1", f2:123})
+		);
+
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+		        document.getElementById('storage_costs').innerText = 'Eth address: ' + xmlhttp.responseText;
+
+		        intervalID = setInterval(checkPaid, 1000);
+		        console.log('setInterval');
+		    }
+		}
+	}
+
+	function checkPaid() {
+		console.log('checkPaid call');
+
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "/rest/api/get_paid");
+		xmlhttp.send();
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+				console.log('checkPaid: ' + xmlhttp.responseText);
+
+		        if (xmlhttp.responseText == "true") {
+		        	document.getElementById('submit_button').disabled = false;
+					clearInterval(intervalID);
+					console.log('clearInterval');
+		        }
+		    }
+		}
+	}
+
+	function testTest2() {
+		console.log('testTest2 call');
+
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "/file/?" + "file_link=fff");
+		xmlhttp.send();
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+				console.log('testTest2: ' + xmlhttp.responseText);
+		    }
+		}
+	}
+
+</script>
+
+
+<!-- <script type="text/javascript">
+	$(document).ready( function () {
+		$('form').submit( function () {
+			var formdata = $(this).serialize();
+			$.ajax({
+			    type: "POST",
+			    url: "http://localhost:8082/",
+			    data: formdata,
+			 });
+			return false;
+		});
+	});
+</script>
+ -->
+
+<form action="/form" method="post" enctype="multipart/form-data">
+	<div>
+		<label for="name">Select a file:</label>
+		<input id="input_file" type="file" name="file"/>
+	</div>
+	<div class="button">
+		<button type="submit" id="submit_button" disabled="disabled">Send</button>
+	</div>
+</form>
+
+<input value="Eval storage costs" onclick="evalStorageCosts();" type="button">
+
+<h3 id='size_label'><h3>
+<h3 id='storage_costs'><h3>
+
+<input value="test" onclick="testTest2();" type="button">
+
+

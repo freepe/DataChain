@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Class-Path: netty-buffer-4.1.1.Final.jar core-2.1.0.jar jnr-constants-
+ 0.9.6.jar netty-common-4.1.1.Final.jar httpclient-4.5.2.jar asm-commo
+ ns-5.0.3.jar netty-codec-http2-4.1.1.Final.jar netty-codec-http-4.1.1
+ .Final.jar netty-codec-dns-4.1.1.Final.jar jnr-posix-3.0.33.jar vertx
+ -core-3.3.0.jar vertx-auth-common-3.4.0.jar javapoet-1.7.0.jar java-m
+ ultibase-v1.0.0.jar jffi-1.2.14-native.jar bcprov-jdk15on-1.54.jar ne
+ tty-handler-proxy-4.1.1.Final.jar java-cid-v1.0.1.jar commons-codec-1
+ .9.jar jffi-1.2.14.jar asm-tree-5.0.3.jar asm-analysis-5.0.3.jar jnr-
+ ffi-2.1.2.jar asm-5.0.3.jar api-v1.1.0.jar jackson-core-2.7.4.jar net
+ ty-resolver-dns-4.1.1.Final.jar asm-util-5.0.3.jar jackson-databind-2
+ .7.4.jar netty-handler-4.1.1.Final.jar jnr-unixsocket-0.15.jar jnr-en
+ xio-0.14.jar rxjava-1.2.4.jar netty-codec-4.1.1.Final.jar netty-codec
+ -socks-4.1.1.Final.jar guava-19.0.jar jnr-x86asm-1.0.2.jar java-multi
+ addr-v1.0.0.jar commons-logging-1.2.jar vertx-web-3.4.0.jar netty-tra
+ nsport-4.1.1.Final.jar jackson-annotations-2.7.0.jar netty-resolver-4
+ .1.1.Final.jar java-multihash-v1.1.0.jar scrypt-1.4.0.jar httpcore-4.
+ 4.4.jar
+Main-Class: com.blockchainua.datachain.App
+
